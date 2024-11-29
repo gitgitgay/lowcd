@@ -1,0 +1,11 @@
+{
+    "extends": "../../tsconfig.client.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@miaoma-lowcode/shadcn/*": ["./src/*"]
+        }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
