@@ -3,7 +3,7 @@
  *   All rights reserved.
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { Layout } from '@/layout'
 import { AppList } from '@/views/AppList'
@@ -33,6 +33,10 @@ export const router: PickRouter<A> = createBrowserRouter([
             },
             {
                 path: 'data-source',
+                element: <Navigate to="/data-source/1" replace />,
+            },
+            {
+                path: 'data-source/:id',
                 element: <DataSource />,
             },
             {
