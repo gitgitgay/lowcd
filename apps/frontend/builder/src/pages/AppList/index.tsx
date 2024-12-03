@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@miaoma-lowcode/shadc
 import { Separator } from '@miaoma-lowcode/shadcn/components/ui/separator'
 import { Skeleton } from '@miaoma-lowcode/shadcn/components/ui/skeleton'
 import { Plus } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 
 import { AppNavigator } from '@/components/AppNavigator'
 
@@ -18,22 +19,22 @@ const apps = [
         icon: '📄',
     },
     {
-        id: 'af7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6b3b',
+        id: 'fa7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6gh2',
         title: '电商平台',
         icon: '📊',
     },
     {
-        id: 'af7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6b3b',
+        id: 'af7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6bb4',
         title: '妙码 CRM',
         icon: '🎨',
     },
     {
-        id: 'af7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6b3b',
+        id: 'aw7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6bb5',
         title: '妙码双十一活动落地页',
         icon: '📝',
     },
     {
-        id: 'fa7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6bb3',
+        id: 'vf7b6b54-6b3b-4b1b-8b3b-7f3b6b3b6bb6',
         title: '妙码双十二活动',
         icon: '📝',
     },
@@ -57,44 +58,46 @@ export function AppList() {
                 </div>
                 <div className="flex flex-row flex-wrap gap-6 px-6">
                     {apps?.map((app, index) => (
-                        <Card className="w-[20%] min-w-[300px] flex-shrink-0 shadow-md hover:shadow-xl cursor-pointer shadow-zinc-100 border-zinc-100">
-                            <CardHeader>
-                                <div className="flex flex-row items-center gap-2 font-bold">
-                                    <div className="text-2xl">{app.icon}</div>
-                                    <div>{app.title}</div>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="h-[200px]">
-                                {index % 2 === 0 ? (
-                                    <div className="flex items-center space-x-4">
-                                        <Skeleton className="h-12 w-12 rounded-full" />
-                                        <div className="flex-1 space-y-2">
-                                            <Skeleton className="h-4 w-full" />
-                                            <Skeleton className="h-4 w-[60%]" />
-                                        </div>
+                        <NavLink to={`editor/${app.id}`}>
+                            <Card className="w-[20%] min-w-[300px] flex-shrink-0 shadow-md hover:shadow-xl cursor-pointer shadow-zinc-100 border-zinc-100">
+                                <CardHeader>
+                                    <div className="flex flex-row items-center gap-2 font-bold">
+                                        <div className="text-2xl">{app.icon}</div>
+                                        <div>{app.title}</div>
                                     </div>
-                                ) : (
-                                    <div className="flex flex-col space-y-3">
-                                        <Skeleton className="h-[125px] w-full rounded-xl" />
-                                        <div className="space-y-2">
-                                            <Skeleton className="h-4 w-full" />
-                                            <Skeleton className="h-4 w-[80%]" />
+                                </CardHeader>
+                                <CardContent className="h-[200px]">
+                                    {index % 2 === 0 ? (
+                                        <div className="flex items-center space-x-4">
+                                            <Skeleton className="h-12 w-12 rounded-full" />
+                                            <div className="flex-1 space-y-2">
+                                                <Skeleton className="h-4 w-full" />
+                                                <Skeleton className="h-4 w-[60%]" />
+                                            </div>
                                         </div>
+                                    ) : (
+                                        <div className="flex flex-col space-y-3">
+                                            <Skeleton className="h-[125px] w-full rounded-xl" />
+                                            <div className="space-y-2">
+                                                <Skeleton className="h-4 w-full" />
+                                                <Skeleton className="h-4 w-[80%]" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </CardContent>
+                                <Separator className="bg-zinc-100" />
+                                <CardFooter className="flex flex-1 flex-col items-start gap-2 pt-4">
+                                    <div className="flex flex-row w-full justify-between text-xs">
+                                        <div>最后更新人：</div>
+                                        <div>合一</div>
                                     </div>
-                                )}
-                            </CardContent>
-                            <Separator className="bg-zinc-100" />
-                            <CardFooter className="flex flex-1 flex-col items-start gap-2 pt-4">
-                                <div className="flex flex-row w-full justify-between text-xs">
-                                    <div>最后更新人：</div>
-                                    <div>合一</div>
-                                </div>
-                                <div className="flex flex-row w-full justify-between text-xs">
-                                    <div>最后更新时间：</div>
-                                    <div>2024-10-10 12:00</div>
-                                </div>
-                            </CardFooter>
-                        </Card>
+                                    <div className="flex flex-row w-full justify-between text-xs">
+                                        <div>最后更新时间：</div>
+                                        <div>2024-10-10 12:00</div>
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        </NavLink>
                     ))}
                 </div>
             </div>

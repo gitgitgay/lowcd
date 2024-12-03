@@ -28,7 +28,7 @@ export const router: PickRouter<A> = createBrowserRouter([
                 element: <AppList />,
             },
             {
-                path: 'editor',
+                path: 'editor/:id',
                 element: <Editor />,
             },
             {

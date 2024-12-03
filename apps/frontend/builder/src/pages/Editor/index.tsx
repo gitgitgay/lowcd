@@ -3,13 +3,20 @@
  *   All rights reserved.
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
-import { Button } from '@miaoma-lowcode/shadcn/components/ui/button'
-import React from 'react'
+import { EditorCanvas } from '@/components/EditorCanvas'
+import { EditorLeftPanel } from '@/components/EditorLeftPanel'
+import { EditorNavigator } from '@/components/EditorNavigator'
+import { EditorSettingPanel } from '@/components/EditorSettingPanel'
 
 export function Editor() {
     return (
-        <div>
-            <Button>Button</Button>
+        <div className="h-full">
+            <EditorNavigator />
+            <div className="flex flex-row h-[calc(100%-46px)]">
+                <EditorLeftPanel />
+                <EditorCanvas />
+                <EditorSettingPanel />
+            </div>
         </div>
     )
 }
