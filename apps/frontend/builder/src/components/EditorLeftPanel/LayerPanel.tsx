@@ -1,11 +1,16 @@
-import { blocksIconMap } from '@/icons/blocks'
-
 /*
  *   Copyright (c) 2024 妙码学院 @Heyi
  *   All rights reserved.
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
-const layers = [
+import { blocksIconMap } from '@/icons/blocks'
+interface Layer {
+    id: string
+    type: keyof typeof blocksIconMap
+    name: string
+    children?: Layer[]
+}
+const layers: Layer[] = [
     {
         id: 'text-xag1fa',
         type: 'text',
@@ -25,19 +30,22 @@ const layers = [
     },
 ]
 
-const withLevelFlattenLayers = (layers: any[], level = 0) => {
-    return layers.reduce((acc, layer) => {
-        acc.push({
-            ...layer,
-            level,
-        })
+const withLevelFlattenLayers = (layers: Layer[], level = 0) => {
+    return layers.reduce(
+        (acc, layer) => {
+            acc.push({
+                ...layer,
+                level,
+            })
 
-        if (layer.children) {
-            acc.push(...withLevelFlattenLayers(layer.children, level + 1))
-        }
+            if (layer.children) {
+                acc.push(...withLevelFlattenLayers(layer.children, level + 1))
+            }
 
-        return acc
-    }, [])
+            return acc
+        },
+        [] as (Layer & { level: number })[]
+    )
 }
 
 export function LayerPanel() {
