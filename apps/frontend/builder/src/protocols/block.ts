@@ -74,9 +74,9 @@ export type DividerBlockProtocol = BaseBlockProtocol & {
  */
 export type ContainerBlockProtocol = BaseBlockProtocol & {
     type: 'container'
-    children: BlockProtocol[]
+    // children: BlockProtocol[]
     props: {
-        layout?: LayoutProtocol
+        layout: LayoutProtocol
     }
 }
 

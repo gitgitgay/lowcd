@@ -30,10 +30,12 @@ export interface SizeProtocol {
  * Block 布局
  */
 export interface LayoutProtocol {
-    flexDirection?: 'row' | 'column'
-    justifyContent?: React.CSSProperties['justifyContent']
-    alignItems?: React.CSSProperties['alignItems']
-    distribution?: boolean
+    flexDirection: 'row' | 'column'
+    justifyContent: React.CSSProperties['justifyContent']
+    alignItems: React.CSSProperties['alignItems']
+    isDistributedAlignment?: boolean
+    gap?: number
+    padding?: [number, number, number, number]
 }
 
 /**

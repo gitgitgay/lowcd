@@ -181,6 +181,7 @@ export const init = () => {
         overlay.style.pointerEvents = 'none'
         overlay.style.position = 'absolute'
         overlay.style.width = `${domRect?.width + 15}px`
+        overlay.style.maxHeight = '200px'
         // overlay.style.left = `${start.left}px`;
         // overlay.style.top = `${start.top}px`;
         overlay.style.left = `${start.x + 8}px`

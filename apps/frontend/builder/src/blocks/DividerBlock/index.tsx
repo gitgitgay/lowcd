@@ -26,5 +26,5 @@ export function DividerBlock(props: DividerBlockProps) {
         }
     }, [data?.props])
 
-    return <div className="bg-zinc-200" style={styles}></div>
+    return <div className="w-full h-full bg-zinc-200" style={styles}></div>
 }

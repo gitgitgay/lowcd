@@ -12,16 +12,16 @@ import { IconBlock } from '@/blocks/IconBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { TextBlock } from '@/blocks/TextBlock'
 import { ContainerProvider, useContainer } from '@/contexts/container'
-import { BlockProtocol } from '@/protocols/block'
 import { RectSize, RectSizeUnit } from '@/protocols/layout'
+import { BlockTreeNode, useBlockStore } from '@/stores/useBlockStore'
 
 export interface BlockRendererProps {
     index: number
-    data: BlockProtocol
+    node: BlockTreeNode
 }
 
 const getWithUnit = (value: RectSize, unit?: RectSizeUnit) => {
-    if (typeof value === 'number') {
+    if (unit === 'px' || unit === '%') {
         return `${value}${unit ?? 'px'}`
     }
     if (value === 'auto') {
@@ -33,8 +33,18 @@ const getWithUnit = (value: RectSize, unit?: RectSizeUnit) => {
     return value
 }
 
+const BlockOutline = () => {
+    // return (
+    //     <div className="absolute pointer-events-none w-[calc(100%+4px)] h-[calc(100%+4px)] rounded-sm top-[-2px] left-[-2px] right-0 bottom-0 border outline outline-purple-300" />
+    // )
+    return <div className="absolute pointer-events-none w-full h-full top-0 left-0 right-0 bottom-0 outline outline-purple-300" />
+}
+
 export function BlockRenderer(props: BlockRendererProps) {
-    const { index, data } = props
+    const { index, node } = props
+    const data = useBlockStore(state => state.blocks[props.node.id])
+    const setActiveBlock = useBlockStore(state => state.setActiveBlock)
+    const activeBlockId = useBlockStore(state => state.activeBlock?.id)
     const { containerId } = useContainer()
 
     let block = null
@@ -52,7 +62,7 @@ export function BlockRenderer(props: BlockRendererProps) {
             break
         }
         case 'container': {
-            block = <ContainerBlock data={data} />
+            block = <ContainerBlock data={data} nodes={node.children} />
             break
         }
         case 'divider': {
@@ -66,9 +76,6 @@ export function BlockRenderer(props: BlockRendererProps) {
     }
 
     const styles = useMemo<React.CSSProperties>(() => {
-        if (!data?.props) {
-            return {}
-        }
         const { size } = data.props
 
         const withUnitWidth = getWithUnit(size?.width ?? 'auto', size?.widthUnit)
@@ -78,28 +85,44 @@ export function BlockRenderer(props: BlockRendererProps) {
             width: withUnitWidth,
             height: withUnitHeight,
         }
-    }, [data?.props])
+    }, [data])
 
     if (data.type === 'container') {
         return (
             <ContainerProvider containerId={data.id}>
-                <div
-                    style={styles}
-                    data-node-index={index}
-                    data-node={data.id}
-                    data-direction={data.props?.layout?.flexDirection}
-                    data-container={containerId}
-                    data-node-count={data.children?.length}
-                >
-                    {block}
+                <div style={styles} className="relative">
+                    <div
+                        className="w-full h-full"
+                        data-node-index={index}
+                        data-node={data.id}
+                        data-direction={data.props?.layout?.flexDirection}
+                        data-container={containerId}
+                        data-node-count={node.children?.length}
+                        onClick={() => setActiveBlock(data.id)}
+                    >
+                        {block}
+                    </div>
+                    {activeBlockId === data.id && <BlockOutline />}
                 </div>
             </ContainerProvider>
         )
     }
 
     return (
-        <div style={styles} data-node-index={index} data-node={data.id} data-container={containerId}>
-            {block}
+        <div style={styles} className="relative">
+            <div
+                className="w-full h-full"
+                data-node-index={index}
+                data-node={data.id}
+                data-container={containerId}
+                onClick={ev => {
+                    ev.stopPropagation()
+                    setActiveBlock(data.id)
+                }}
+            >
+                {block}
+                {activeBlockId === data.id && <BlockOutline />}
+            </div>
         </div>
     )
 }
