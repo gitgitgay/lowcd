@@ -48,6 +48,7 @@ export function AppNavigator() {
             <div className="flex flex-row flex-1 items-center gap-2 text-muted-foreground font-bold">
                 {links.map(link => (
                     <NavLink
+                        key={link.url}
                         to={link.url}
                         className={({ isActive }) => cn('rounded-full mx-1 px-4 py-1 text-[13px]', isActive && 'text-muted bg-zinc-800')}
                     >

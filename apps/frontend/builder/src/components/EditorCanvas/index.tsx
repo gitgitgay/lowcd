@@ -174,7 +174,7 @@ export function EditorCanvas() {
     }
 
     useEffect(() => {
-        let destroy = null
+        let destroy: (() => void) | null = null
         requestAnimationFrame(() => {
             destroy = init()
         })
