@@ -30,6 +30,20 @@ const blockTree: BlockTreeNode[] = [
                 id: 'button-xfg1ge',
                 type: 'button',
             },
+            {
+                id: 'container-f4ag1fa',
+                type: 'container',
+                children: [
+                    {
+                        id: 'text-f1ag1fa',
+                        type: 'text',
+                    },
+                    {
+                        id: 'button-g1ag1fa',
+                        type: 'button',
+                    },
+                ],
+            },
         ],
     },
     {
@@ -244,6 +258,50 @@ const blocks: Record<string, BlockProtocol> = {
             },
         },
     },
+    'container-f4ag1fa': {
+        id: 'container-f4ag1fa',
+        title: '容器',
+        type: 'container',
+        props: {
+            layout: {
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+            },
+            size: {
+                width: 100,
+                widthUnit: '%',
+                height: 500,
+                heightUnit: 'px',
+            },
+        },
+    },
+    'text-f1ag1fa': {
+        id: 'text-f1ag1fa',
+        title: '文本',
+        type: 'text',
+        props: {
+            text: '文本',
+            size: {
+                width: 200,
+                widthUnit: 'px',
+                height: 100,
+                heightUnit: '%',
+            },
+        },
+    },
+    'button-g1ag1fa': {
+        id: 'button-g1ag1fa',
+        title: '按钮',
+        type: 'button',
+        props: {
+            text: '按钮',
+            size: {
+                width: 'auto',
+                height: 'auto',
+            },
+        },
+    },
 }
 
 // const blocks: BlockProtocol[] = [
@@ -382,6 +440,15 @@ const blocks: Record<string, BlockProtocol> = {
 export function Editor() {
     const initBlocks = useBlockStore(state => state.initBlocks)
     const initBlockTree = useBlockStore(state => state.initBlockTree)
+
+    // const bt = useBlockStore(state => state.blockTree)
+    // const bs = useBlockStore(state => state.blocks)
+
+    // const activeBlock = useBlockStore(state => state.activeBlock)
+
+    // selector，为什么需要 selector？
+
+    // console.log('bt, bs', bt, bs)
 
     useEffect(() => {
         initBlockTree(blockTree)

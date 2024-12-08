@@ -8,7 +8,7 @@ import { Button } from '@miaoma-lowcode/shadcn/components/ui/button'
 import { cn } from '@miaoma-lowcode/shadcn/lib/utils'
 import { Plus, Sheet } from 'lucide-react'
 import { useEffect } from 'react'
-import { NavLink, useMatch } from 'react-router-dom'
+import { NavLink, useMatch, useNavigate } from 'react-router-dom'
 
 import { AppNavigator } from '@/components/AppNavigator'
 import { useDatabaseStore } from '@/stores/useDatabaseStore'
@@ -22,13 +22,15 @@ const databases = [
 
 export function DataSource() {
     const match = useMatch('/data-source/:id')
+    const navigate = useNavigate()
     const initialDatabaseList = useDatabaseStore(state => state.initDatabaseList)
     const createDatabase = useDatabaseStore(state => state.createDatabase)
     const databaseList = useDatabaseStore(state => state.databaseList)
     const ds = databaseList.find(db => db.id === match?.params.id)
 
     const handleCreateDatabase = () => {
-        createDatabase('新建数据源')
+        const dsId = createDatabase('新建数据源')
+        navigate(`/data-source/${dsId}`)
     }
 
     useEffect(() => {
@@ -63,7 +65,7 @@ export function DataSource() {
                             </NavLink>
                         ))}
                     </div>
-                    {ds?.id && <HugeTable id={ds.id} title={ds.title} />}
+                    {ds?.id && <HugeTable key={ds.id} id={ds.id} title={ds.title} />}
                 </div>
             </div>
         </div>

@@ -9,7 +9,8 @@ import '@glideapps/glide-data-grid/dist/index.css'
 import { DataEditor, GridCell, GridCellKind } from '@glideapps/glide-data-grid'
 import { Button } from '@miaoma-lowcode/shadcn/components/ui/button'
 import { ArrowUp, Database } from 'lucide-react'
-import { useState } from 'react'
+
+import { useDatabaseStore } from '@/stores/useDatabaseStore'
 
 import { ColumnAdder } from './ColumnAdder'
 
@@ -43,77 +44,27 @@ const dummyCellData = [
 
 export function HugeTable(props: HugeTableProps) {
     const { id, title } = props
-    const [columns, setColumns] = useState([
-        {
-            title: '姓名',
-            width: 200,
-            hasMenu: true,
-            type: 'text',
-        },
-        {
-            title: '性别',
-            width: 200,
-            hasMenu: true,
-            type: 'text',
-        },
-        {
-            title: '年龄',
-            width: 80,
-            hasMenu: true,
-            type: 'number',
-        },
-        {
-            title: '婚姻状况',
-            width: 80,
-            hasMenu: true,
-            type: 'boolean',
-        },
-        {
-            title: '个人主页',
-            width: 200,
-            hasMenu: true,
-            type: 'uri',
-        },
-        {
-            title: '头像',
-            width: 80,
-            type: 'image',
-        },
-        {
-            title: '爱好',
-            width: 150,
-            hasMenu: true,
-            type: 'bubble',
-        },
-        {
-            title: '详情',
-            width: 200,
-            type: 'markdown',
-        },
-    ])
-    const [vals, setVals] = useState(() => {
-        const result = []
-        for (let i = 0; i < 100; i++) {
-            result.push([
-                'Edit',
-                i % 3 === 0 ? '男' : '女',
-                `${i}`,
-                i % 2 === 0 ? true : false,
-                'https://www.miaomaedu.com',
-                ['https://docs.pmnd.rs/_next/static/media/zustand-icon.3261dd51.svg'],
-                ['篮球', '跳舞'],
-                '## 详情\n这是一个详情',
-            ])
-        }
-        return result
-    })
+    const database = useDatabaseStore(state => state.databases[id])
+    const updateDatabase = useDatabaseStore(state => state.updateDatabase)
+    const { columns = [], records = {}, rows = [] } = database ?? {}
+
+    const recordRows = rows.map(row => records[row])
 
     const handleAdd = (data: { name: string; type: string }) => {
-        setColumns([...columns, { title: data.name, width: 100, hasMenu: true, type: data.type }])
-        const newVals = vals.map(row => {
-            return [...row, '']
+        const newColumns = [...columns, { id: `${data.type}-${data.name}`, title: data.name, width: 100, hasMenu: true, type: data.type }]
+        // 为每一行添加新列的默认值
+        const newRecords = { ...records }
+        rows.forEach(row => {
+            newRecords[row] = [...newRecords[row], '']
         })
-        setVals(newVals)
+        /**
+         * 更新行列
+         */
+        updateDatabase(id, {
+            ...database,
+            columns: newColumns,
+            records: newRecords,
+        })
     }
 
     return (
@@ -141,35 +92,51 @@ export function HugeTable(props: HugeTableProps) {
                     hint: '点击添加新行',
                 }}
                 columns={columns}
-                rows={vals.length}
+                rows={rows.length}
                 rightElement={<ColumnAdder onAdd={handleAdd} />}
-                getCellContent={([col, row]) =>
-                    ({
+                getCellContent={([col, row]) => {
+                    return {
                         kind: columns[col].type,
                         allowOverlay: true,
-                        data: vals[row][col],
-                        displayData: vals[row][col],
-                    }) as GridCell
-                }
-                onColumnResize={(_, newSize, colIndex) => {
-                    const newCols = [...columns]
-                    newCols[colIndex].width = newSize
-                    setColumns(newCols)
+                        data: recordRows[row][col],
+                        displayData: recordRows[row][col],
+                    } as GridCell
                 }}
+                // onColumnMoved={(from, to) => {
+                //     const newCols = [...columns]
+                //     const [moved] = newCols.splice(from, 1)
+                //     newCols.splice(to, 0, moved)
+                //     setColumns(newCols)
+                // }}
+                // onColumnResize={(_, newSize, colIndex) => {
+                //     const newCols = [...columns]
+                //     newCols[colIndex].width = newSize
+                //     setColumns(newCols)
+                // }}
                 onCellEdited={([col, row], newVal) => {
-                    const newVals = [...vals]
-                    const newRow = [...newVals[row]]
+                    const record = recordRows[row]
                     if (newVal.kind === GridCellKind.Number) {
-                        newRow[col] = `${newVal.data}` || ''
+                        record[col] = `${newVal.data}` || ''
                     } else {
-                        // @ts-expect-error row data is not a number
-                        newRow[col] = newVal.data
+                        record[col] = newVal.data
                     }
-                    newVals[row] = newRow
-                    setVals(newVals)
+                    updateDatabase(id, {
+                        ...database,
+                        records: {
+                            ...records,
+                            [rows[row]]: record,
+                        },
+                    })
                 }}
                 onRowAppended={() => {
-                    setVals([...vals, dummyCellData])
+                    updateDatabase(id, {
+                        ...database,
+                        rows: [...rows, `${rows.length}`],
+                        records: {
+                            ...records,
+                            [`${rows.length}`]: dummyCellData,
+                        },
+                    })
                 }}
                 // onHeaderMenuClick={(col, menu) => {
                 //     console.log('🚀 ~ onHeaderMenuClick ~ col, menu', col, menu)
