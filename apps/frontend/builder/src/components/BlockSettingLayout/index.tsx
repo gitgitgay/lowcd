@@ -23,7 +23,11 @@ export function BlockSettingLayout() {
                     </div>
                     <div className="flex flex-row justify-between items-center">
                         <div className="w-[60px]">间距</div>
-                        <Controller control={control} name="props.layout.gap" render={({ field }) => <GapSizeInput {...field} />} />
+                        <Controller
+                            control={control}
+                            name="props.layout.gap"
+                            render={({ field }) => <GapSizeInput value={field.value} onChange={field.onChange} />}
+                        />
                     </div>
                     <div className="flex flex-row justify-between">
                         <div className="w-[60px]">边距</div>

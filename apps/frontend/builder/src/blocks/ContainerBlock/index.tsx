@@ -7,6 +7,7 @@ import React from 'react'
 
 import { BlockRenderer } from '@/components/BlockRenderer'
 import { ContainerProvider } from '@/contexts/container'
+import { Container } from '@/icons/blocks/container'
 import { ContainerBlockProtocol } from '@/protocols/block'
 import { BlockTreeNode, useBlockStore } from '@/stores/useBlockStore'
 
@@ -34,11 +35,23 @@ export function ContainerBlock(props: ContainerBlockProps) {
         [alignX]: isRow && isDistributedAlignment ? 'space-between' : blockProps.layout.justifyContent || 'flex-start',
         [alignY]: !isRow && isDistributedAlignment ? 'space-between' : blockProps.layout.alignItems || 'flex-start',
         gap: blockProps.layout.gap + 'px',
+        flexShrink: 0,
     }
 
     return (
         <div className="w-full h-full" style={styles}>
             <ContainerProvider containerId={data.id}>
+                {!nodes?.length && (
+                    <div
+                        className="container-placeholder w-full h-full flex flex-col gap-2 items-center justify-center text-sm text-zinc-500"
+                        data-container={data.id}
+                    >
+                        <div className="size-9">
+                            <Container />
+                        </div>
+                        暂无内容
+                    </div>
+                )}
                 {nodes?.map((child, index) => {
                     return <BlockRenderer key={index} node={child} index={index} />
                 })}

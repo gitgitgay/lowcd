@@ -32,11 +32,12 @@ export function BlockSettingSize() {
                                                 name="props.size.widthUnit"
                                                 render={({ field: innerField }) => (
                                                     <SizeUnitSelector
-                                                        {...innerField}
                                                         options={[
                                                             { label: 'px', value: 'px' },
                                                             { label: '%', value: '%' },
                                                         ]}
+                                                        value={innerField.value}
+                                                        onChange={innerField.onChange}
                                                     >
                                                         <span className="text-sm font-light">{innerField.value}</span>
                                                     </SizeUnitSelector>
@@ -65,11 +66,12 @@ export function BlockSettingSize() {
                                                 name="props.size.heightUnit"
                                                 render={({ field: innerField }) => (
                                                     <SizeUnitSelector
-                                                        {...innerField}
                                                         options={[
                                                             { label: 'px', value: 'px' },
                                                             { label: '%', value: '%' },
                                                         ]}
+                                                        value={innerField.value}
+                                                        onChange={innerField.onChange}
                                                     >
                                                         <span className="text-sm font-light">{innerField.value}</span>
                                                     </SizeUnitSelector>

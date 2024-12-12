@@ -3,12 +3,12 @@
  *   All rights reserved.
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
-import { ScrollArea } from '@miaoma-lowcode/shadcn/components/ui/scroll-area'
 import { Sun } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { ContainerProvider } from '@/contexts/container'
-import { init } from '@/layout-engine'
+import { init } from '@/layout-engineV2'
+import { BlockType } from '@/protocols/block'
 import { BlockTreeNode, useBlockStore } from '@/stores/useBlockStore'
 
 // import { PageProtocol } from '@/protocols/page'
@@ -162,6 +162,8 @@ import { BlockRenderer } from '../BlockRenderer'
 
 export function EditorCanvas() {
     const blockTree = useBlockStore(state => state.blockTree)
+    const insertBlock = useBlockStore(state => state.insertBlock)
+    const moveBlock = useBlockStore(state => state.moveBlock)
     // console.log('🚀 ~ EditorCanvas ~ blocks:', blocksState)
     const renderLayout = (layout: BlockTreeNode[]) => {
         return (
@@ -174,15 +176,51 @@ export function EditorCanvas() {
     }
 
     useEffect(() => {
-        let destroy: (() => void) | null = null
-        requestAnimationFrame(() => {
-            destroy = init()
-        })
+        init({
+            onInsert(dragId, insertPayload) {
+                // 插入节点
+                if (!insertPayload || !insertPayload.position) {
+                    return
+                }
+                const [dragType = '', type = ''] = dragId.split('-')
+                if (dragType === 'insert') {
+                    insertBlock({
+                        type: type as BlockType,
+                        relativeBlockId: insertPayload.nodeId,
+                        parentId: insertPayload.parentId,
+                        position: insertPayload.position,
+                    })
+                    return
+                }
+                moveBlock({
+                    blockId: dragId,
+                    relativeBlockId: insertPayload.nodeId,
+                    parentId: insertPayload.parentId,
+                    position: insertPayload.position,
+                })
 
-        return () => {
-            destroy?.()
-        }
-    }, [])
+                // 移动节点
+                // console.log('🚀 ~ onDrop ~ dragId, insertPayload', dragId, insertPayload)
+            },
+            onDrop(dragId, insertPayload) {
+                if (!insertPayload) {
+                    return
+                }
+                const [dragType = '', type = ''] = dragId.split('-')
+                if (dragType === 'insert') {
+                    insertBlock({
+                        type: type as BlockType,
+                        parentId: insertPayload.parentId,
+                    })
+                    return
+                }
+                moveBlock({
+                    blockId: dragId,
+                    parentId: insertPayload.parentId,
+                })
+            },
+        })
+    }, [insertBlock, moveBlock])
 
     return (
         <div className="flex-1 bg-zinc-100">
@@ -200,9 +238,9 @@ export function EditorCanvas() {
                         <div className="size-3 rounded-full bg-green-500"></div>
                     </div>
                 </div>
-                <ScrollArea className="page-content w-full h-full overflow-y-auto">
-                    <div className="w-full h-full page-content-inner max-w-[1024px] m-auto">{renderLayout(blockTree)}</div>
-                </ScrollArea>
+                <div className="page-content w-full h-full overflow-y-auto">
+                    <div className="flex flex-col w-full page-content-inner max-w-[1024px] m-auto">{renderLayout(blockTree)}</div>
+                </div>
                 <div className="flex items-center absolute bottom-4 right-4 px-2 py-1 text-xs rounded-md bg-primary text-primary-foreground">
                     <Sun size={16} className="mr-1 animate-spin" />
                     妙码 搭建

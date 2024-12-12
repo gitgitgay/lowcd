@@ -111,7 +111,7 @@ export function ComponentPanel() {
                     <div className="grid grid-cols-4 px-2">
                         {group.components.map(component => (
                             <div
-                                data-node={component.type}
+                                data-node={`insert-${component.type}`}
                                 key={`${group.type}-${component.type}`}
                                 className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-zinc-100 cursor-pointer"
                             >

@@ -29,10 +29,12 @@ const withLevelFlattenLayers = (blockTree: BlockTreeNode[], blocks: Record<strin
 export function LayerPanel() {
     const blocks = useBlockStore(state => state.blocks)
     const blockTree = useBlockStore(state => state.blockTree)
+    const setActiveBlock = useBlockStore(state => state.setActiveBlock)
 
     const flattenLayers = withLevelFlattenLayers(blockTree, blocks, 0)
 
     const scrollToBlock = (id: string) => {
+        setActiveBlock(id)
         document.querySelector('[data-node="' + id + '"]')?.scrollIntoView({
             behavior: 'smooth',
             block: 'center',

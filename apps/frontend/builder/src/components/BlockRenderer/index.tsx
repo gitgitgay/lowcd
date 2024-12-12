@@ -98,7 +98,10 @@ export function BlockRenderer(props: BlockRendererProps) {
                         data-direction={data.props?.layout?.flexDirection}
                         data-container={containerId}
                         data-node-count={node.children?.length}
-                        onClick={() => setActiveBlock(data.id)}
+                        onClick={ev => {
+                            ev.stopPropagation()
+                            setActiveBlock(data.id)
+                        }}
                     >
                         {block}
                     </div>
