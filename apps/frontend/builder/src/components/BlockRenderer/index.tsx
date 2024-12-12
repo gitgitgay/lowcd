@@ -93,15 +93,16 @@ export function BlockRenderer(props: BlockRendererProps) {
                 <div style={styles} className="relative">
                     <div
                         className="w-full h-full"
+                        onClick={ev => {
+                            ev.stopPropagation()
+                            setActiveBlock(data.id)
+                        }}
+                        // 编排必需属性
                         data-node-index={index}
                         data-node={data.id}
                         data-direction={data.props?.layout?.flexDirection}
                         data-container={containerId}
                         data-node-count={node.children?.length}
-                        onClick={ev => {
-                            ev.stopPropagation()
-                            setActiveBlock(data.id)
-                        }}
                     >
                         {block}
                     </div>
@@ -115,13 +116,14 @@ export function BlockRenderer(props: BlockRendererProps) {
         <div style={styles} className="relative">
             <div
                 className="w-full h-full"
-                data-node-index={index}
-                data-node={data.id}
-                data-container={containerId}
                 onClick={ev => {
                     ev.stopPropagation()
                     setActiveBlock(data.id)
                 }}
+                // 编排必需属性
+                data-node-index={index}
+                data-node={data.id}
+                data-container={containerId}
             >
                 {block}
                 {activeBlockId === data.id && <BlockOutline />}
