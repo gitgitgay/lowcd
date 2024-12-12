@@ -156,7 +156,6 @@ export const init = () => {
 
         generateAreas()
 
-        // eslint-disable-next-line no-console
         console.log('🚀 ~ mouseDownHandler ~ dragId:', nodeAreas)
 
         // 创建区域指示
@@ -232,7 +231,6 @@ export const init = () => {
                 }
                 createIndicator(hovered)
             } else {
-                // eslint-disable-next-line no-console
                 console.log('🚀 ~ mouseMoveHandler ~ insertPayload:', hovered)
                 insertPayload = null
                 indicator?.remove()
@@ -245,9 +243,9 @@ export const init = () => {
         }
         document.body.style.cursor = ''
         isDragging = false
-        // eslint-disable-next-line no-console
+
         console.log('🚀 ~ mouseUpHandler ~ dragId:', dragId)
-        // eslint-disable-next-line no-console
+
         console.log('🚀 ~ mouseUpHandler ~ insertPayload:', insertPayload)
         dragId = ''
         insertPayload = null

@@ -3,11 +3,11 @@
  *   All rights reserved.
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
+import { init } from '@miaoma-lowcode/layout-engine'
 import { Sun } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { ContainerProvider } from '@/contexts/container'
-import { init } from '@/layout-engineV2'
 import { BlockType } from '@/protocols/block'
 import { BlockTreeNode, useBlockStore } from '@/stores/useBlockStore'
 
