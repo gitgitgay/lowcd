@@ -23,11 +23,10 @@ import { dropCursor, EditorView, hoverTooltip, keymap, /* lineNumbers, */ toolti
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { evalScript } from '../codeSandbox'
 import { editableConfigure } from '../extensions/common/editableConfigure'
 import { placeholderConfigure } from '../extensions/common/placeholderConfigure'
 import { readOnlyConfigure } from '../extensions/common/readOnlyConfigure'
-// import { singleLineConfigure } from '../extensions/common/singleLineConfigure'
+import { singleLineConfigure } from '../extensions/common/singleLineConfigure'
 // import { dynamicCompletion } from '../extensions/completions/dynamic-completion'
 import { staticCompletion } from '../extensions/completions/static-completion'
 import { customHighlightPlugin } from '../extensions/highlighter/dynamicSyntaxHighlighter'
@@ -38,6 +37,7 @@ import { focusUpdateListener } from '../extensions/listeners/focusUpdateListener
 import { themeMiaoma } from '../extensions/themes/miaoma'
 // import { docSizePlugin } from '../extensions/tools/docSize'
 import { VariableEditorCoreProps } from '../types/editor'
+import { intercept } from './variable-interceptor'
 
 const language = new Compartment(),
     tabSize = new Compartment()
@@ -71,7 +71,7 @@ const basicExtension = [
 ]
 
 export function VariableEditorCore(props: VariableEditorCoreProps) {
-    const { className, value, editable = true, readOnly = false, placeholder, onChange, onFocus, onBlur } = props
+    const { className, value = '', editable = true, readOnly = false, placeholder, dataTree, onChange, onFocus, onBlur } = props
     const [focused, setFocused] = useState(false)
     const editorWrapperRef = useRef<HTMLDivElement>(null)
     const codeMirrorEditorViewRef = useRef<EditorView | null>(null)
@@ -95,35 +95,28 @@ export function VariableEditorCore(props: VariableEditorCoreProps) {
         ])
     )
 
+    const latestValue = useRef(value)
     const [snippet, setSnippet] = useState(value ?? `Hello，{{user.info.name}}，{{user.info.age f * 2}}`)
     const [evalRes, setEvalRes] = useState('')
     const [evalError, setEvalError] = useState('')
 
     useEffect(() => {
-        const snippetScript = snippet.match(/{{(.*?)}}/g)
-        const user = { id: 1, info: { name: 'Alice', age: 23 } }
-        let evalResult = snippet
-        let evalError = ''
-        try {
-            const results =
-                snippetScript?.map(script => {
-                    const scriptValue = script.replace(/{{|}}/g, '')
-                    return evalScript(scriptValue, { user })
-                }) ?? []
-
-            for (let i = 0; i < results.length; i++) {
-                const result = results[i]
-                evalResult = evalResult.replace(snippetScript?.[i] as string, result)
-            }
-            setEvalRes(evalResult)
-            setEvalError('')
-        } catch (error) {
-            // @ts-expect-error error
-            evalError = error.message
-            setEvalRes('')
-            setEvalError(evalError)
+        if (value !== latestValue.current) {
+            latestValue.current = value
+            setSnippet(value)
         }
-    }, [snippet])
+
+        return () => {
+            latestValue.current = ''
+        }
+    }, [value])
+
+    useEffect(() => {
+        if (!snippet || !dataTree) return
+        const { result, error } = intercept(snippet, dataTree)
+        setEvalRes(result)
+        setEvalError(error)
+    }, [dataTree, snippet])
 
     useEffect(() => {
         // 这样判断是为了避免重复渲染，导致编辑器内容丢失，同时解决性能问题
@@ -138,7 +131,7 @@ export function VariableEditorCore(props: VariableEditorCoreProps) {
                         readOnlyConfigure(readOnly),
                         editableConfigure(editable),
                         placeholderConfigure(placeholder),
-                        // singleLineConfigure(true),
+                        singleLineConfigure(false),
                         themeMiaoma,
                         forbidRegExpDemoLinter,
                         keymap.of(defaultKeymap),
@@ -169,9 +162,9 @@ export function VariableEditorCore(props: VariableEditorCoreProps) {
                                 setFocused(true)
                                 onFocus?.()
                             },
-                            onBlur: () => {
+                            onBlur: (value: string) => {
                                 setFocused(false)
-                                onBlur?.()
+                                onBlur?.(value)
                             },
                         }),
                     ],
@@ -200,18 +193,18 @@ export function VariableEditorCore(props: VariableEditorCoreProps) {
             top: top + height + 1,
             left: left - 1,
             zIndex: 100,
-            borderRadius: '4px',
+            borderRadius: 8,
             borderTopRightRadius: 0,
             borderTopLeftRadius: 0,
-            fontSize: 12,
-            padding: '4px 8px',
+            fontSize: 13,
+            padding: 8,
         }
         if (evalError) {
             return {
                 ...commonStyle,
                 borderColor: 'red',
                 color: 'red',
-                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                backgroundColor: 'rgb(252,237,232)',
             }
         }
         return {
@@ -222,35 +215,33 @@ export function VariableEditorCore(props: VariableEditorCoreProps) {
         }
     }, [snippet, evalError, focused])
 
-    const resultContent = evalRes ? (
-        <div style={styles}>
-            {evalRes && (
-                <div>
-                    <p>结果：String</p>
-                    <p>{evalRes}</p>
-                </div>
-            )}
-        </div>
-    ) : evalError ? (
+    const resultContent = evalError ? (
         <div style={styles}>
             {evalError && (
                 <div>
-                    <p>错误：</p>
+                    <p style={{ fontWeight: 'bold', marginBottom: 4 }}>错误：</p>
                     <p>{evalError}</p>
                 </div>
             )}
         </div>
-    ) : null
+    ) : (
+        <div style={styles}>
+            <div>
+                <p style={{ fontWeight: 'bold', marginBottom: 4 }}>结果：String</p>
+                <p>{evalRes || '-'}</p>
+            </div>
+        </div>
+    )
 
     return (
         <div
             className={className}
             style={{
                 border: '1px solid',
-                borderColor: focused ? (evalRes ? 'rgb(11, 182, 69)' : evalError ? 'red' : 'transparent') : 'transparent',
+                borderColor: focused ? (evalError ? 'rgb(229,82,67)' : 'rgb(11, 182, 69)') : '#E4E4E7',
                 borderRadius: 4,
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
+                borderBottomLeftRadius: focused ? 0 : 4,
+                borderBottomRightRadius: focused ? 0 : 4,
             }}
         >
             <div ref={editorWrapperRef}></div>

@@ -33,10 +33,6 @@ export function BlocksSettings() {
         })
     }, [methods, updateBlock])
 
-    useEffect(() => {
-        return () => methods.reset({})
-    }, [methods])
-
     let settingContent = null
 
     switch (activeBlock?.type) {
