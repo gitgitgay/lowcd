@@ -8,10 +8,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@m
 import { VariableEditor } from '@miaoma-lowcode/variable-editor'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { mockVariableDataTree } from '@/constants/mockVariableDataTree'
+import { useVariableTree } from '@/hooks/useVariableTree'
 
 export function Content() {
     const { control } = useFormContext()
+
+    const variableTree = useVariableTree()
 
     return (
         <Accordion type="single" collapsible defaultValue="item-1">
@@ -25,12 +27,7 @@ export function Content() {
                             control={control}
                             name="props.text"
                             render={({ field }) => (
-                                <VariableEditor
-                                    className="flex-1"
-                                    value={field.value}
-                                    onBlur={field.onChange}
-                                    dataTree={mockVariableDataTree}
-                                />
+                                <VariableEditor className="flex-1" value={field.value} onBlur={field.onChange} dataTree={variableTree} />
                             )}
                         />
                     </div>

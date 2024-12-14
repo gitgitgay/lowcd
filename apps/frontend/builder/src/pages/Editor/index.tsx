@@ -87,7 +87,7 @@ const blockTree: BlockTreeNode[] = [
 const blocks: Record<string, BlockProtocol> = {
     'container-xfg1ge': {
         id: 'container-xfg1ge',
-        title: '容器1',
+        title: 'container1',
         type: 'container',
         props: {
             layout: {
@@ -105,7 +105,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'text-xfg1ge': {
         id: 'text-xfg1ge',
-        title: '文本1',
+        title: 'text1',
         type: 'text',
         props: {
             text: '会当凌绝顶，一览众山小',
@@ -119,7 +119,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'icon-gaw1ge': {
         id: 'icon-gaw1ge',
-        title: '图标1',
+        title: 'icon1',
         type: 'icon',
         props: {
             icon: '🚀',
@@ -131,7 +131,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'button-xfg1ge': {
         id: 'button-xfg1ge',
-        title: '按钮1',
+        title: 'button1',
         type: 'button',
         props: {
             text: '点击我',
@@ -143,7 +143,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'text-fga1ge': {
         id: 'text-fga1ge',
-        title: '文本2',
+        title: 'text2',
         type: 'text',
         props: {
             text: '非常棒的，非常 Nice',
@@ -157,7 +157,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'container-gaw1ge': {
         id: 'container-gaw1ge',
-        title: '容器2',
+        title: 'container2',
         type: 'container',
         props: {
             layout: {
@@ -175,7 +175,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'text-gaw1ge': {
         id: 'text-gaw1ge',
-        title: '文本3',
+        title: 'text3',
         type: 'text',
         props: {
             text: 'Hello, World!',
@@ -189,7 +189,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'image-gaw1ge': {
         id: 'image-gaw1ge',
-        title: '图片1',
+        title: 'image1',
         type: 'image',
         props: {
             src: 'https://docs.pmnd.rs/_next/static/media/zustand-icon.3261dd51.svg',
@@ -203,7 +203,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'divider-gaw1ge': {
         id: 'divider-gaw1ge',
-        title: '分割线1',
+        title: 'divider1',
         type: 'divider',
         props: {
             size: {
@@ -216,7 +216,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'button-gaw1ge': {
         id: 'button-gaw1ge',
-        title: '按钮2',
+        title: 'button2',
         type: 'button',
         props: {
             text: '点击我',
@@ -228,7 +228,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'container-xag1fa': {
         id: 'container-xag1fa',
-        title: '容器',
+        title: 'container3',
         type: 'container',
         props: {
             layout: {
@@ -246,7 +246,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'text-xag1fa': {
         id: 'text-xag1fa',
-        title: '文本',
+        title: 'text4',
         type: 'text',
         props: {
             text: '文本',
@@ -260,7 +260,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'container-f4ag1fa': {
         id: 'container-f4ag1fa',
-        title: '容器',
+        title: 'container4',
         type: 'container',
         props: {
             layout: {
@@ -278,7 +278,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'text-f1ag1fa': {
         id: 'text-f1ag1fa',
-        title: '文本',
+        title: 'text5',
         type: 'text',
         props: {
             text: '文本',
@@ -292,7 +292,7 @@ const blocks: Record<string, BlockProtocol> = {
     },
     'button-g1ag1fa': {
         id: 'button-g1ag1fa',
-        title: '按钮',
+        title: 'button3',
         type: 'button',
         props: {
             text: '按钮',

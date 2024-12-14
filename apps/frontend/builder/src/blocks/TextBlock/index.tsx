@@ -6,7 +6,7 @@
 import { cn } from '@miaoma-lowcode/shadcn/lib/utils'
 import { intercept } from '@miaoma-lowcode/variable-editor'
 
-import { mockVariableDataTree } from '@/constants/mockVariableDataTree'
+import { useVariableTree } from '@/hooks/useVariableTree'
 import { TextBlockProtocol } from '@/protocols/block'
 
 export interface TextBlockProps {
@@ -16,7 +16,9 @@ export interface TextBlockProps {
 export function TextBlock(props: TextBlockProps) {
     const { data } = props
 
-    const { result, error } = intercept(data?.props.text ?? '', mockVariableDataTree)
+    const variableTree = useVariableTree()
+
+    const { result, error } = intercept(data?.props.text ?? '', variableTree)
 
     return <div className={cn(error && 'outline outline-destructive')}>{result}</div>
 }

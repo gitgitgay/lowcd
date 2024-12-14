@@ -6,7 +6,7 @@
 import { cn } from '@miaoma-lowcode/shadcn/lib/utils'
 import { intercept } from '@miaoma-lowcode/variable-editor'
 
-import { mockVariableDataTree } from '@/constants/mockVariableDataTree'
+import { useVariableTree } from '@/hooks/useVariableTree'
 import { ButtonBlockProtocol } from '@/protocols/block'
 
 export interface ButtonBlockProps {
@@ -16,7 +16,9 @@ export interface ButtonBlockProps {
 export function ButtonBlock(props: ButtonBlockProps) {
     const { data } = props
 
-    const { result, error } = intercept(data?.props.text ?? '', mockVariableDataTree)
+    const variableTree = useVariableTree()
+
+    const { result, error } = intercept(data?.props.text ?? '', variableTree)
 
     return (
         <button className={cn('px-2 py-1 text-sm rounded-md bg-primary text-primary-foreground', error && 'outline outline-destructive')}>

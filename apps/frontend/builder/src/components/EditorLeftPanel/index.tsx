@@ -10,6 +10,7 @@ import { useState } from 'react'
 
 import { ComponentPanel } from './ComponentPanel'
 import { LayerPanel } from './LayerPanel'
+import { VariablesPanel } from './VariablesPanel'
 
 type EditorLeftPanelMenuType = 'components' | 'layer' | 'state'
 
@@ -59,6 +60,7 @@ export function EditorLeftPanel() {
                 <div className="w-[278px] bg-zinc-50 border-l">
                     {activeMenu === 'components' && <ComponentPanel />}
                     {activeMenu === 'layer' && <LayerPanel />}
+                    {activeMenu === 'state' && <VariablesPanel />}
                 </div>
             )}
         </div>

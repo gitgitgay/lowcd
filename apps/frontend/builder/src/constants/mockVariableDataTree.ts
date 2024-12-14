@@ -10,4 +10,5 @@ export const mockVariableDataTree = {
             age: 18,
         },
     },
+    window,
 }
