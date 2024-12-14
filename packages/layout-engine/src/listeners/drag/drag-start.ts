@@ -4,7 +4,6 @@
  *   妙码学院官方出品，作者 @Heyi，供学员学习使用，可用作练习，可用作美化简历，不可开源。
  */
 import { __debug__ } from '../../__debug__'
-console.log('🚀 ~ __debug__:', __debug__)
 import { dragItem, startScrollOffset } from '../../core/drag-item'
 import { overlay } from '../../core/overlay'
 import { createAreaIndicator, generateAreas } from '../../core/virtual-area'

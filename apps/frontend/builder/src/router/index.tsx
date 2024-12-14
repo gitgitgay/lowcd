@@ -7,6 +7,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { Layout } from '@/layout'
 import { AppList } from '@/views/AppList'
+import { CodeMirrorDemo } from '@/views/CodeMirrorDemo'
 import { DataSource } from '@/views/DataSource'
 import { Editor } from '@/views/Editor'
 import { Resources } from '@/views/Resources'
@@ -46,6 +47,10 @@ export const router: PickRouter<A> = createBrowserRouter([
             {
                 path: 'resources',
                 element: <Resources />,
+            },
+            {
+                path: 'codemirror-demo',
+                element: <CodeMirrorDemo />,
             },
         ],
     },

@@ -25,7 +25,7 @@ const ignores = [
 ]
 
 const frontendBuilderConfig = {
-    files: ['apps/frontend/builder/**/*.{ts,tsx}'],
+    files: ['apps/frontend/builder/**/*.{ts,tsx}', 'packages/**/*.{ts,tsx}'],
     ignores: ['apps/frontend/builder/src/components/ui/**/*'],
     languageOptions: {
         ecmaVersion: 2020,

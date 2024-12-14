@@ -16,6 +16,7 @@
         "react-router-dom": "6.28.0",
         "@miaoma-lowcode/shadcn": "workspace:*",
         "@miaoma-lowcode/layout-engine": "workspace:*",
+        "@miaoma-lowcode/variable-editor": "workspace:*",
         "tailwindcss": "3.4.15",
         "lucide-react": "0.462.0",
         "@glideapps/glide-data-grid": "6.0.3",
