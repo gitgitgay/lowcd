@@ -6,7 +6,7 @@
 
 import { Controller, Get, Param, Post, Query } from '@nestjs/common'
 
-import { DataSourceService } from './DataSource.service'
+import { DataSourceService } from './data-source.service'
 
 @Controller('dataSource')
 export class DataSourceController {

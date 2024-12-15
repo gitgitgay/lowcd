@@ -6,8 +6,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { DataSourceController } from './DataSource.controller'
-import { DataSourceService } from './DataSource.service'
+import { DataSourceController } from './data-source.controller'
+import { DataSourceService } from './data-source.service'
 
 @Module({
     imports: [ConfigModule],
