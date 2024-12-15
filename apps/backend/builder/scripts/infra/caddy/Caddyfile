@@ -1,0 +1,51 @@
+:3000 {
+
+	uri strip_suffix /
+
+	root * /frontend/lowcode/dist
+
+	handle_path /api/* {
+		# 一定要用子网或者是公网 id
+		reverse_proxy 188.88.88.88:8080
+	}
+
+	handle {
+		templates
+		try_files {path}.html {path} /
+		file_server
+	}
+}
+
+:3001 {
+
+	uri strip_suffix /
+
+	root * /frontend/docs/dist
+
+	handle {
+		templates
+		try_files {path}.html {path} /
+		file_server
+	}
+}
+
+# miaomaedu.com {
+
+# }
+
+# lowcode.miaomaedu.com {
+
+# }
+
+# # 针对低代码平台的应用发布，我只是新增了域名的代理，主机其实是一样的
+# xjiolasdf.miaomaedu.site {
+
+# }
+
+# fgsdafsd.miaomaedu.site {
+
+# }
+
+# xcfsdf.miaomedu.site {
+
+# }

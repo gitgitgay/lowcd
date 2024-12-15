@@ -1,0 +1,16 @@
+{
+    "name": "@miaoma-lowcode/builder-server",
+    "scripts": {
+        "start:dev": "nest start --watch"
+    },
+    "dependencies": {
+        "pg": "8.13.1",
+        "nest-postgres": "0.0.16"
+    },
+    "devDependencies": {
+        "@nestjs/core": "10.4.15",
+        "@nestjs/common": "10.4.15",
+        "@nestjs/platform-express": "10.4.15",
+        "@nestjs/config": "3.3.0"
+    }
+}
