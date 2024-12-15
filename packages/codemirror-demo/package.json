@@ -1,0 +1,55 @@
+{
+    "name": "@miaoma-lowcode/codemirror-demo",
+    "private": false,
+    "sideEffects": [
+        "*.css"
+    ],
+    "license": "MIAOMAEDU",
+    "version": "1.0.0",
+    "keywords": [
+        "miaoma",
+        "lowcode",
+        "typescript",
+        "codeMirror",
+        "wysiwyg",
+        "block-based"
+    ],
+    "description": "妙码低代码平台 - 变量编辑器",
+    "type": "module",
+    "source": "src/index.ts",
+    "main": "build/cjs/index.js",
+    "module": "build/esm/index.js",
+    "exports": {
+        ".": {
+            "import": "./build/esm/index.js"
+        },
+        "./style.css": {
+            "import": "./build/esm/index.css"
+        }
+    },
+    "scripts": {
+        "build:watch": "tsup --watch",
+        "build": "tsup",
+        "clean": "rimraf build",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@codemirror/state": "6.5.0",
+        "@codemirror/view": "6.35.3",
+        "@codemirror/autocomplete": "6.18.3",
+        "@codemirror/commands": "6.7.1",
+        "@codemirror/lang-javascript": "6.2.2",
+        "@codemirror/lang-json": "6.0.1",
+        "@codemirror/lang-sql": "6.8.0",
+        "@codemirror/language": "6.10.6"
+    },
+    "devDependencies": {
+        "@types/react": "18.3.16",
+        "@types/react-dom": "18.3.5",
+        "tsup": "8.3.5"
+    },
+    "peerDependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    }
+}

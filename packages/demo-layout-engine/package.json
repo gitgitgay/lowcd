@@ -1,0 +1,40 @@
+{
+    "name": "@miaoma-lowcode/demo-layout-engine",
+    "private": false,
+    "license": "MIAOMAEDU",
+    "version": "1.0.0",
+    "keywords": [
+        "miaoma",
+        "lowcode",
+        "typescript",
+        "codeMirror",
+        "wysiwyg",
+        "block-based"
+    ],
+    "description": "妙码低代码平台 - 布局引擎",
+    "type": "module",
+    "source": "src/index.ts",
+    "main": "build/cjs/index.js",
+    "module": "build/esm/index.js",
+    "exports": {
+        ".": {
+            "import": "./build/esm/index.js"
+        }
+    },
+    "scripts": {
+        "build:watch": "tsup --watch",
+        "build": "tsup",
+        "clean": "rimraf build",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "interactjs": "1.10.27"
+    },
+    "devDependencies": {
+        "tsup": "8.3.5"
+    },
+    "peerDependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    }
+}
